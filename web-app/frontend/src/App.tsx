@@ -1,7 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { Toaster, toast } from 'react-hot-toast';
 import {
   Check,
   Clipboard,
@@ -28,6 +29,13 @@ function App() {
   const [error, setError] = useState('');
   const [isConverting, setIsConverting] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const resultsRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (markdown) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [markdown]);
 
   const onDrop = useCallback((files: File[]) => {
     setError('');
@@ -71,8 +79,11 @@ function App() {
       }
 
       setMarkdown(payload.markdown ?? '');
+      toast.success('Conversion complete!');
     } catch (conversionError) {
-      setError(conversionError instanceof Error ? conversionError.message : 'Conversion failed.');
+      const errorMessage = conversionError instanceof Error ? conversionError.message : 'Conversion failed.';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsConverting(false);
     }
@@ -103,6 +114,7 @@ function App() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#f7f8f4] text-[#17231f]">
+      <Toaster />
       <div className="mx-auto min-h-screen max-w-7xl px-5 py-6 sm:px-8 lg:px-12">
         <header className="flex items-center justify-between border-b border-[#dfe7dd] pb-5">
           <div className="flex items-center gap-3">
@@ -158,7 +170,7 @@ function App() {
 
         {error && <div role="alert" className="mx-auto mb-8 flex max-w-3xl items-center gap-3 rounded-xl border border-[#efc8c1] bg-[#fff4f1] px-4 py-3 text-sm text-[#a14d3e]">{error}</div>}
 
-        {markdown && <section className="mx-auto mb-12 max-w-5xl overflow-hidden rounded-3xl border border-[#d8e4d3] bg-white shadow-[0_16px_50px_rgba(53,83,63,0.08)]">
+        {markdown && <section ref={resultsRef} className="mx-auto mb-12 max-w-5xl overflow-hidden rounded-3xl border border-[#d8e4d3] bg-white shadow-[0_16px_50px_rgba(53,83,63,0.08)]">
           <div className="flex flex-col gap-3 border-b border-[#e8eee5] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
             <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#79932d]">Conversion complete</p><h2 className="mt-1 text-xl font-semibold text-[#173b32]">Markdown preview</h2></div>
             <div className="flex gap-2">
