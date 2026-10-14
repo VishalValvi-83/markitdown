@@ -41,6 +41,9 @@ COPY --from=frontend-build /app/web-app/frontend/dist /app/web-app/public
 ARG USERID=nobody
 ARG GROUPID=nogroup
 
+RUN mkdir -p /app/web-app/uploads \
+    && chown "$USERID:$GROUPID" /app/web-app/uploads
+
 USER $USERID:$GROUPID
 
 WORKDIR /app/web-app
