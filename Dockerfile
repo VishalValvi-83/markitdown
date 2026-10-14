@@ -44,4 +44,4 @@ ARG GROUPID=nogroup
 USER $USERID:$GROUPID
 
 WORKDIR /app/web-app
-CMD [ "npm", "start" ]
+ENTRYPOINT ["node", "server.js"]

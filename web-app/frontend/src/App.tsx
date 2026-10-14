@@ -110,7 +110,7 @@ function App() {
               <Sparkles size={20} />
             </div>
             <div>
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#63796e]">MarkItDown</p>
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#63796e]">OmniMark</p>
               <p className="text-sm font-medium text-[#53655d]">Document intelligence, simplified.</p>
             </div>
           </div>
@@ -169,7 +169,7 @@ function App() {
           <article className="prose prose-slate max-w-none overflow-x-auto px-5 py-7 sm:px-7"><ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown></article>
         </section>}
 
-        <footer className="border-t border-[#dfe7dd] py-5 text-center font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9aa9a0]">Built for documents that deserve to be understood</footer>
+        <footer className="border-t border-[#dfe7dd] py-5 text-center font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9aa9a0]">Built for documents that deserve to be understood <span className="mx-1 text-[#c1cbc4]">|</span> Powered by Microsoft MarkItDown engine</footer>
       </div>
     </main>
   );
